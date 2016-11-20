@@ -48,7 +48,7 @@
 #endif
 
 #ifdef _LIBC
-# include <libintl.h>
+//# include <libintl.h>
 #else
 # include "gettext.h"
 # define _(msgid) gettext (msgid)

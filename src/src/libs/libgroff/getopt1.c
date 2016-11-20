@@ -41,7 +41,7 @@
 #endif
 
 int
-getopt_long (int argc, char *__getopt_argv_const *argv, const char *options,
+getopt_long (int argc, char * __getopt_argv_const *argv, const char *options,
 	     const struct option *long_options, int *opt_index)
 {
   return _getopt_internal (argc, (char **) argv, options, long_options,
