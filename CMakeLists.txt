@@ -40,6 +40,7 @@ set(libgroff_sources
 	src/src/libs/libgroff/htmlhint.cpp
 	src/src/libs/libgroff/hypot.cpp
 	src/src/libs/libgroff/iftoa.c
+	src/src/libs/libgroff/itoa.c
 	src/src/libs/libgroff/invalid.cpp
 	src/src/libs/libgroff/lf.cpp
 	src/src/libs/libgroff/lineno.cpp
@@ -67,9 +68,10 @@ set(libgroff_sources
 	src/src/libs/libgroff/uniglyph.cpp
 	src/src/libs/libgroff/uniuni.cpp
 	gen/version-libgroff.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
-add_library(libgroff STATIC ${libgroff_sources})
+add_library(groff STATIC ${libgroff_sources})
 
 set(troff_sources
 	src/src/roff/troff/dictionary.cpp
@@ -84,7 +86,7 @@ set(troff_sources
 )
 
 add_darling_executable(troff ${troff_sources})
-target_link_libraries(troff system libgroff stdcxx)
+target_link_libraries(troff system groff stdcxx)
 install(TARGETS troff DESTINATION libexec/darling/usr/bin)
 
 set(pic_sources
@@ -98,8 +100,17 @@ set(pic_sources
 )
 
 add_darling_executable(pic ${pic_sources})
-target_link_libraries(pic system libgroff stdcxx)
+target_link_libraries(pic system groff stdcxx)
 install(TARGETS pic DESTINATION libexec/darling/usr/bin)
+
+set(tbl_sources
+	src/src/preproc/tbl/table.cpp
+	src/src/preproc/tbl/main.cpp
+)
+
+add_darling_executable(tbl ${tbl_sources})
+target_link_libraries(tbl system groff stdcxx)
+install(TARGETS tbl DESTINATION libexec/darling/usr/bin)
 
 # Static content
 install(DIRECTORY gen/usr DESTINATION libexec/darling)
