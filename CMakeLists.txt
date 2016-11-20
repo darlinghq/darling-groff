@@ -11,8 +11,18 @@ include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
 
 add_definitions(-DHAVE_CONFIG_H -D__GETOPT_PREFIX=groff_ -D_LIBC)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fwrapv -fPIC -ggdb -Wno-implicit-function-declaration -Wno-int-conversion")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-missing-exception-spec -Wno-unused-value")
+add_definitions(
+	-Wno-format-security
+	-Wno-implicit-function-declaration
+	-Wno-int-conversion
+	-Wno-missing-exception-spec
+	-Wno-unused-value
+	-Wno-parentheses
+	-Wno-tautological-pointer-compare
+)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fwrapv -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_SHARED_LINKER_FLAGS "-nodefaultlibs -nostdlib -fPIC -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 set(CMAKE_EXE_LINKER_FLAGS "-nodefaultlibs -nostdlib -fPIC -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 
@@ -69,11 +79,16 @@ set(libgroff_sources
 	src/src/libs/libgroff/uniglyph.cpp
 	src/src/libs/libgroff/uniuni.cpp
 	gen/version-libgroff.cpp
-	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_library(groff STATIC ${libgroff_sources})
 
+set(libdriver_sources
+	src/src/libs/libdriver/input.cpp
+	src/src/libs/libdriver/printer.cpp
+)
+
+add_library(driver STATIC ${libdriver_sources})
 
 set(troff_sources
 	src/src/roff/troff/dictionary.cpp
@@ -85,6 +100,7 @@ set(troff_sources
 	src/src/roff/troff/node.cpp
 	src/src/roff/troff/number.cpp
 	src/src/roff/troff/reg.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(troff ${troff_sources})
@@ -95,6 +111,7 @@ install(TARGETS troff DESTINATION libexec/darling/usr/bin)
 set(tbl_sources
 	src/src/preproc/tbl/table.cpp
 	src/src/preproc/tbl/main.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(tbl ${tbl_sources})
@@ -110,6 +127,7 @@ set(pic_sources
 	src/src/preproc/pic/object.cpp
 	src/src/preproc/pic/tex.cpp
 	src/src/preproc/pic/troff.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(pic ${pic_sources})
@@ -133,6 +151,7 @@ set(eqn_sources
 	src/src/preproc/eqn/sqrt.cpp
 	src/src/preproc/eqn/pile.cpp
 	src/src/preproc/eqn/special.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(eqn ${eqn_sources})
@@ -145,6 +164,7 @@ set(grn_sources
 	src/src/preproc/grn/hpoint.cpp
 	src/src/preproc/grn/hgraph.cpp
 	src/src/preproc/grn/main.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(grn ${grn_sources})
@@ -158,6 +178,7 @@ set(refer_sources
 	src/src/preproc/refer/ref.cpp
 	src/src/preproc/refer/refer.cpp
 	src/src/preproc/refer/token.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(refer ${refer_sources})
@@ -167,6 +188,7 @@ install(TARGETS refer DESTINATION libexec/darling/usr/bin)
 
 set(soelim_sources
 	src/src/preproc/soelim/soelim.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(soelim ${soelim_sources})
@@ -177,11 +199,80 @@ install(TARGETS soelim DESTINATION libexec/darling/usr/bin)
 set(pre-grohtml_sources
 	src/src/preproc/html/pre-html.cpp
 	src/src/preproc/html/pushback.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(pre-grohtml ${pre-grohtml_sources})
 target_link_libraries(pre-grohtml system groff stdcxx)
 install(TARGETS pre-grohtml DESTINATION libexec/darling/usr/bin)
+
+
+set(grops_sources
+	src/src/devices/grops/ps.cpp
+	src/src/devices/grops/psrm.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(grops ${grops_sources})
+target_link_libraries(grops system stdcxx groff driver)
+install(TARGETS grops DESTINATION libexec/darling/usr/bin)
+
+
+set(grotty_sources
+	src/src/devices/grotty/tty.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(grotty ${grotty_sources})
+target_link_libraries(grotty system stdcxx groff driver)
+install(TARGETS grotty DESTINATION libexec/darling/usr/bin)
+
+
+set(grodvi_sources
+	src/src/devices/grodvi/dvi.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(grodvi ${grodvi_sources})
+target_link_libraries(grodvi system stdcxx groff driver)
+install(TARGETS grodvi DESTINATION libexec/darling/usr/bin)
+
+
+set(grolj4_sources
+	src/src/devices/grolj4/lj4.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(grolj4 ${grolj4_sources})
+target_link_libraries(grolj4 system stdcxx groff driver)
+install(TARGETS grolj4 DESTINATION libexec/darling/usr/bin)
+
+
+set(post-grohtml_sources
+	src/src/devices/grohtml/post-html.cpp
+	src/src/devices/grohtml/html-table.cpp
+	src/src/devices/grohtml/html-text.cpp
+	src/src/devices/grohtml/output.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(post-grohtml ${post-grohtml_sources})
+target_link_libraries(post-grohtml system stdcxx groff driver)
+install(TARGETS post-grohtml DESTINATION libexec/darling/usr/bin)
+
+
+set(grolbp_sources
+	src/src/devices/grolbp/lbp.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(grolbp ${grolbp_sources})
+target_link_libraries(grolbp system stdcxx groff driver)
+install(TARGETS grolbp DESTINATION libexec/darling/usr/bin)
+
+
+# Because some symbols exist in multiple places, bad design choice of their's
+set_target_properties(grolbp grodvi post-grohtml grotty grolj4 grops PROPERTIES LINK_FLAGS -Wl,-z,muldefs)
 
 
 # Static content
