@@ -20,6 +20,7 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/darling
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+
 set(libgroff_sources
 	src/src/libs/libgroff/assert.cpp
 	src/src/libs/libgroff/change_lf.cpp
@@ -73,6 +74,7 @@ set(libgroff_sources
 
 add_library(groff STATIC ${libgroff_sources})
 
+
 set(troff_sources
 	src/src/roff/troff/dictionary.cpp
 	src/src/roff/troff/div.cpp
@@ -89,6 +91,17 @@ add_darling_executable(troff ${troff_sources})
 target_link_libraries(troff system groff stdcxx)
 install(TARGETS troff DESTINATION libexec/darling/usr/bin)
 
+
+set(tbl_sources
+	src/src/preproc/tbl/table.cpp
+	src/src/preproc/tbl/main.cpp
+)
+
+add_darling_executable(tbl ${tbl_sources})
+target_link_libraries(tbl system groff stdcxx)
+install(TARGETS tbl DESTINATION libexec/darling/usr/bin)
+
+
 set(pic_sources
 	src/src/preproc/pic/pic.cpp
 	src/src/preproc/pic/lex.cpp
@@ -103,14 +116,73 @@ add_darling_executable(pic ${pic_sources})
 target_link_libraries(pic system groff stdcxx)
 install(TARGETS pic DESTINATION libexec/darling/usr/bin)
 
-set(tbl_sources
-	src/src/preproc/tbl/table.cpp
-	src/src/preproc/tbl/main.cpp
+
+set(eqn_sources
+	src/src/preproc/eqn/eqn.cpp
+	src/src/preproc/eqn/main.cpp
+	src/src/preproc/eqn/lex.cpp
+	src/src/preproc/eqn/box.cpp
+	src/src/preproc/eqn/limit.cpp
+	src/src/preproc/eqn/list.cpp
+	src/src/preproc/eqn/over.cpp
+	src/src/preproc/eqn/text.cpp
+	src/src/preproc/eqn/script.cpp
+	src/src/preproc/eqn/mark.cpp
+	src/src/preproc/eqn/other.cpp
+	src/src/preproc/eqn/delim.cpp
+	src/src/preproc/eqn/sqrt.cpp
+	src/src/preproc/eqn/pile.cpp
+	src/src/preproc/eqn/special.cpp
 )
 
-add_darling_executable(tbl ${tbl_sources})
-target_link_libraries(tbl system groff stdcxx)
-install(TARGETS tbl DESTINATION libexec/darling/usr/bin)
+add_darling_executable(eqn ${eqn_sources})
+target_link_libraries(eqn system groff stdcxx)
+install(TARGETS eqn DESTINATION libexec/darling/usr/bin)
+
+
+set(grn_sources
+	src/src/preproc/grn/hdb.cpp
+	src/src/preproc/grn/hpoint.cpp
+	src/src/preproc/grn/hgraph.cpp
+	src/src/preproc/grn/main.cpp
+)
+
+add_darling_executable(grn ${grn_sources})
+target_link_libraries(grn system groff stdcxx)
+install(TARGETS grn DESTINATION libexec/darling/usr/bin)
+
+
+set(refer_sources
+	src/src/preproc/refer/command.cpp
+	src/src/preproc/refer/label.cpp
+	src/src/preproc/refer/ref.cpp
+	src/src/preproc/refer/refer.cpp
+	src/src/preproc/refer/token.cpp
+)
+
+add_darling_executable(refer ${refer_sources})
+target_link_libraries(refer system groff stdcxx)
+install(TARGETS refer DESTINATION libexec/darling/usr/bin)
+
+
+set(soelim_sources
+	src/src/preproc/soelim/soelim.cpp
+)
+
+add_darling_executable(soelim ${soelim_sources})
+target_link_libraries(soelim system groff stdcxx)
+install(TARGETS soelim DESTINATION libexec/darling/usr/bin)
+
+
+set(pre-grohtml_sources
+	src/src/preproc/html/pre-html.cpp
+	src/src/preproc/html/pushback.cpp
+)
+
+add_darling_executable(pre-grohtml ${pre-grohtml_sources})
+target_link_libraries(pre-grohtml system groff stdcxx)
+install(TARGETS pre-grohtml DESTINATION libexec/darling/usr/bin)
+
 
 # Static content
 install(DIRECTORY gen/usr DESTINATION libexec/darling)
