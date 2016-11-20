@@ -19,6 +19,7 @@ add_definitions(
 	-Wno-unused-value
 	-Wno-parentheses
 	-Wno-tautological-pointer-compare
+	-Wno-mismatched-new-delete
 )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fwrapv -fPIC")
@@ -89,6 +90,17 @@ set(libdriver_sources
 )
 
 add_library(driver STATIC ${libdriver_sources})
+
+set(libbib_sources
+	src/src/libs/libbib/common.cpp
+	src/src/libs/libbib/index.cpp
+	src/src/libs/libbib/linear.cpp
+	src/src/libs/libbib/search.cpp
+	src/src/libs/libbib/map.c
+)
+
+add_library(bib STATIC ${libbib_sources})
+
 
 set(troff_sources
 	src/src/roff/troff/dictionary.cpp
@@ -182,7 +194,7 @@ set(refer_sources
 )
 
 add_darling_executable(refer ${refer_sources})
-target_link_libraries(refer system groff stdcxx)
+target_link_libraries(refer system stdcxx groff bib)
 install(TARGETS refer DESTINATION libexec/darling/usr/bin)
 
 
@@ -271,8 +283,74 @@ target_link_libraries(grolbp system stdcxx groff driver)
 install(TARGETS grolbp DESTINATION libexec/darling/usr/bin)
 
 
-# Because some symbols exist in multiple places, bad design choice of their's
+# Because some symbols of libgroff and libdriver exist in multiple places, bad design choice of their's
 set_target_properties(grolbp grodvi post-grohtml grotty grolj4 grops PROPERTIES LINK_FLAGS -Wl,-z,muldefs)
+
+
+set(tfmtodit_sources
+	src/src/utils/tfmtodit/tfmtodit.cpp
+)
+
+add_darling_executable(tfmtodit ${tfmtodit_sources})
+target_link_libraries(tfmtodit system stdcxx groff)
+install(TARGETS tfmtodit DESTINATION libexec/darling/usr/bin)
+
+
+set(hpftodit_sources
+	src/src/utils/hpftodit/hpftodit.cpp
+	src/src/utils/hpftodit/hpuni.cpp
+)
+
+add_darling_executable(hpftodit ${hpftodit_sources})
+target_link_libraries(hpftodit system stdcxx groff)
+install(TARGETS hpftodit DESTINATION libexec/darling/usr/bin)
+
+
+set(lookbib_sources
+	src/src/utils/lookbib/lookbib.cpp
+)
+
+add_darling_executable(lookbib ${lookbib_sources})
+target_link_libraries(lookbib system stdcxx groff bib)
+install(TARGETS lookbib DESTINATION libexec/darling/usr/bin)
+
+
+set(indxbib_sources
+	src/src/utils/indxbib/indxbib.cpp
+	src/src/utils/indxbib/signal.c
+)
+
+add_darling_executable(indxbib ${indxbib_sources})
+target_link_libraries(indxbib system stdcxx groff bib)
+install(TARGETS indxbib DESTINATION libexec/darling/usr/bin)
+
+
+set(lkbib_sources
+	src/src/utils/lkbib/lkbib.cpp
+)
+
+add_darling_executable(lkbib ${lkbib_sources})
+target_link_libraries(lkbib system stdcxx groff bib)
+install(TARGETS lkbib DESTINATION libexec/darling/usr/bin)
+
+
+set(addftinfo_sources
+	src/src/utils/addftinfo/addftinfo.cpp
+	src/src/utils/addftinfo/guess.cpp
+)
+
+add_darling_executable(addftinfo ${addftinfo_sources})
+target_link_libraries(addftinfo system stdcxx groff)
+install(TARGETS addftinfo DESTINATION libexec/darling/usr/bin)
+
+
+set(pfbtops_sources
+	src/src/utils/pfbtops/pfbtops.c
+)
+
+add_darling_executable(pfbtops ${pfbtops_sources})
+target_link_libraries(pfbtops system stdcxx groff)
+install(TARGETS pfbtops DESTINATION libexec/darling/usr/bin)
 
 
 # Static content
