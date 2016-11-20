@@ -4,14 +4,15 @@ cmake_minimum_required(VERSION 2.4.0)
 
 include(darling_exe)
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/src/include)
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/gen/include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
 
 add_definitions(-DHAVE_CONFIG_H -D__GETOPT_PREFIX=groff_ -D_LIBC)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -fwrapv -fPIC -ggdb -Wno-implicit-function-declaration -Wno-int-conversion")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc -nostdinc++ -fPIC -Wno-missing-exception-spec -Wno-unused-value")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fwrapv -fPIC -ggdb -Wno-implicit-function-declaration -Wno-int-conversion")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-missing-exception-spec -Wno-unused-value")
 set(CMAKE_SHARED_LINKER_FLAGS "-nodefaultlibs -nostdlib -fPIC -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 set(CMAKE_EXE_LINKER_FLAGS "-nodefaultlibs -nostdlib -fPIC -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 
@@ -68,12 +69,37 @@ set(libgroff_sources
 	gen/version-libgroff.cpp
 )
 
-add_library(groff STATIC ${libgroff_sources})
+add_library(libgroff STATIC ${libgroff_sources})
 
-#add_darling_executable(man ${man_sources})
-#target_link_libraries(man system)
+set(troff_sources
+	src/src/roff/troff/dictionary.cpp
+	src/src/roff/troff/div.cpp
+	src/src/roff/troff/env.cpp
+	src/src/roff/troff/input.cpp
+	gen/src/majorminor.cpp
+	src/src/roff/troff/mtsm.cpp
+	src/src/roff/troff/node.cpp
+	src/src/roff/troff/number.cpp
+	src/src/roff/troff/reg.cpp
+)
 
-#install(TARGETS man DESTINATION libexec/darling/usr/bin)
+add_darling_executable(troff ${troff_sources})
+target_link_libraries(troff system libgroff stdcxx)
+install(TARGETS troff DESTINATION libexec/darling/usr/bin)
+
+set(pic_sources
+	src/src/preproc/pic/pic.cpp
+	src/src/preproc/pic/lex.cpp
+	src/src/preproc/pic/common.cpp
+	src/src/preproc/pic/main.cpp
+	src/src/preproc/pic/object.cpp
+	src/src/preproc/pic/tex.cpp
+	src/src/preproc/pic/troff.cpp
+)
+
+add_darling_executable(pic ${pic_sources})
+target_link_libraries(pic system libgroff stdcxx)
+install(TARGETS pic DESTINATION libexec/darling/usr/bin)
 
 # Static content
 install(DIRECTORY gen/usr DESTINATION libexec/darling)
