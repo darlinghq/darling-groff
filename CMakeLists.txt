@@ -102,6 +102,18 @@ set(libbib_sources
 add_library(bib STATIC ${libbib_sources})
 
 
+set(groff_sources
+	src/src/roff/groff/groff.cpp
+	src/src/roff/groff/pipeline.c
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
+)
+
+add_darling_executable(groff_exe ${groff_sources})
+target_link_libraries(groff_exe system groff stdcxx)
+set_target_properties(groff_exe PROPERTIES OUTPUT_NAME groff)
+install(TARGETS groff_exe DESTINATION libexec/darling/usr/bin)
+
+
 set(troff_sources
 	src/src/roff/troff/dictionary.cpp
 	src/src/roff/troff/div.cpp
@@ -289,6 +301,7 @@ set_target_properties(grolbp grodvi post-grohtml grotty grolj4 grops PROPERTIES 
 
 set(tfmtodit_sources
 	src/src/utils/tfmtodit/tfmtodit.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(tfmtodit ${tfmtodit_sources})
@@ -299,6 +312,7 @@ install(TARGETS tfmtodit DESTINATION libexec/darling/usr/bin)
 set(hpftodit_sources
 	src/src/utils/hpftodit/hpftodit.cpp
 	src/src/utils/hpftodit/hpuni.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(hpftodit ${hpftodit_sources})
@@ -308,6 +322,7 @@ install(TARGETS hpftodit DESTINATION libexec/darling/usr/bin)
 
 set(lookbib_sources
 	src/src/utils/lookbib/lookbib.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(lookbib ${lookbib_sources})
@@ -318,6 +333,7 @@ install(TARGETS lookbib DESTINATION libexec/darling/usr/bin)
 set(indxbib_sources
 	src/src/utils/indxbib/indxbib.cpp
 	src/src/utils/indxbib/signal.c
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(indxbib ${indxbib_sources})
@@ -327,6 +343,7 @@ install(TARGETS indxbib DESTINATION libexec/darling/usr/bin)
 
 set(lkbib_sources
 	src/src/utils/lkbib/lkbib.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(lkbib ${lkbib_sources})
@@ -337,6 +354,7 @@ install(TARGETS lkbib DESTINATION libexec/darling/usr/bin)
 set(addftinfo_sources
 	src/src/utils/addftinfo/addftinfo.cpp
 	src/src/utils/addftinfo/guess.cpp
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(addftinfo ${addftinfo_sources})
@@ -346,6 +364,7 @@ install(TARGETS addftinfo DESTINATION libexec/darling/usr/bin)
 
 set(pfbtops_sources
 	src/src/utils/pfbtops/pfbtops.c
+	${DARLING_TOP_DIRECTORY}/src/libstdcxx/src/dso_handle.c
 )
 
 add_darling_executable(pfbtops ${pfbtops_sources})
