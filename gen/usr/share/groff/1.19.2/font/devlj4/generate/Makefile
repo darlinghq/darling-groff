@@ -34,7 +34,7 @@
 #   make -f generate/Makefile
 # in the parent directory of this directory.
 
-AUTOFONT=/usr/local/lib/groff-lj4
+AUTOFONT=/usr/lib/groff-lj4
 HPFTODIT=hpftodit
 # .05 em
 IFLAG=-i 50

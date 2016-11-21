@@ -25,8 +25,8 @@
 # `` and '': B, BI, I, R.
 
 srcdir=generate
-tfmdir=/usr/local/lib/groff-tfm
-gfdir=/usr/local/lib/groff-gf
+tfmdir=/usr/lib/groff-tfm
+gfdir=/usr/lib/groff-gf
 
 TFMTODIT=tfmtodit
 FONTS=TR TI TB TBI CW CWI HR HI HB HBI \

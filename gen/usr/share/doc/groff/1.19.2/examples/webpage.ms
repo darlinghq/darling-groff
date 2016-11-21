@@ -1157,13 +1157,13 @@ papersize /etc/papersize a4
 
 .LI
 A local font directory has been prepended to the default font path; it
-defaults to /usr/local/share/groff/site-font.  Similar to the normal
+defaults to /usr/share/groff/site-font.  Similar to the normal
 font searching process, files must be placed into a dev\f[I]XXX\f[]
 subdirectory, e.g.
 
 .in 2m
 .ft C
-/usr/local/share/groff/site-font/devps/FOO
+/usr/share/groff/site-font/devps/FOO
 .ft P
 .in
 

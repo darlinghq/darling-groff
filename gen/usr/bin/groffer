@@ -72,7 +72,7 @@ export _AT_BINDIR_AT;
 export _AT_G_AT;
 export _AT_LIBDIR_AT;
 export _GROFFER_LIBDIR;
-if test _/usr/local/bin_ = _${_AT}BINDIR${_AT}_
+if test _/usr/bin_ = _${_AT}BINDIR${_AT}_
 then
   # script before `make'
   _AT_BINDIR_AT='.';
@@ -80,9 +80,9 @@ then
   _AT_LIBDIR_AT='';
   _GROFFER_LIBDIR='.';
 else
-  _AT_BINDIR_AT='/usr/local/bin';
+  _AT_BINDIR_AT='/usr/bin';
   _AT_G_AT='';
-  _AT_LIBDIR_AT='/usr/local/lib';
+  _AT_LIBDIR_AT='/usr/lib';
   _GROFFER_LIBDIR="${_AT_LIBDIR_AT}"'/groff/groffer';
 fi;
 

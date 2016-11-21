@@ -88,7 +88,7 @@ done
 # Set up the `GROFF_BIN_PATH' variable
 # to be exported in the current `GROFF_RUNTIME' environment.
 
-GROFF_RUNTIME="${GROFF_BIN_PATH=/usr/local/bin}:"
+GROFF_RUNTIME="${GROFF_BIN_PATH=/usr/bin}:"
 export GROFF_BIN_PATH
 
 # This shell script is intended for use with man, so warnings are

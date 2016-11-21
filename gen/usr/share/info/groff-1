@@ -781,12 +781,12 @@ files are (in that order):
      default locations are
 
 
-          /usr/local/lib/groff/site-tmac
-          /usr/local/share/groff/site-tmac
-          /usr/local/share/groff/1.18.2/tmac
+          /usr/lib/groff/site-tmac
+          /usr/share/groff/site-tmac
+          /usr/share/groff/1.18.2/tmac
 
      assuming that the version of `groff' is 1.18.2, and the
-     installation prefix was `/usr/local'.  It is possible to fine-tune
+     installation prefix was `/usr'.  It is possible to fine-tune
      those directories during the installation process.
 
 
@@ -822,11 +822,11 @@ files for `grodvi' must be in `/foo/bar/devdvi'.
      locations are
 
 
-          /usr/local/share/groff/site-font
-          /usr/local/share/groff/1.18.2/font
+          /usr/share/groff/site-font
+          /usr/share/groff/1.18.2/font
 
      assuming that the version of `groff' is 1.18.2, and the
-     installation prefix was `/usr/local'.  It is possible to fine-tune
+     installation prefix was `/usr'.  It is possible to fine-tune
      those directories during the installation process.
 
 

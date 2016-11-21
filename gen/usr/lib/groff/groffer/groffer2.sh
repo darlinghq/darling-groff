@@ -3084,7 +3084,7 @@ manpath_set_from_path()
   fi;
 
   # append some default directories
-  for d in /usr/local/share/man /usr/local/man \
+  for d in /usr/share/man /usr/man \
            /usr/share/man /usr/man \
            /usr/X11R6/man /usr/openwin/man \
            /opt/share/man /opt/man \

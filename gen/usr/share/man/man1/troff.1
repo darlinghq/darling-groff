@@ -222,8 +222,8 @@ It will be first searched for in directories given with the
 command line option, then in directories given in the
 .B GROFF_TMAC_PATH
 environment variable, then in the current directory (only if in unsafe
-mode), the home directory, /usr/local/lib/groff/site-tmac, /usr/local/share/groff/site-tmac, and
-/usr/local/share/groff/1.19.2/tmac.
+mode), the home directory, /usr/lib/groff/site-tmac, /usr/share/groff/site-tmac, and
+/usr/share/groff/1.19.2/tmac.
 .
 .TP
 .BI \-M dir
@@ -545,9 +545,9 @@ will scan directories given in the
 .B \-M
 option before these, and in standard directories (current directory if
 in unsafe mode, home directory,
-.BR /usr/local/lib/groff/site-tmac ,
-.BR /usr/local/share/groff/site-tmac ,
-.BR /usr/local/share/groff/1.19.2/tmac )
+.BR /usr/lib/groff/site-tmac ,
+.BR /usr/share/groff/site-tmac ,
+.BR /usr/share/groff/1.19.2/tmac )
 after these.
 .
 .TP
@@ -565,8 +565,8 @@ directory.
 will scan directories given in the
 .B \-F
 option before these, and in standard directories
-.RB ( /usr/local/share/groff/site-font ,
-.BR /usr/local/share/groff/1.19.2/font ,
+.RB ( /usr/share/groff/site-font ,
+.BR /usr/share/groff/1.19.2/font ,
 .BR /usr/lib/font )
 after these.
 .
@@ -575,27 +575,27 @@ after these.
 .SH FILES
 .\" --------------------------------------------------------------------
 .
-.Tp \w'/usr/local/share/groff/1.19.2/font/devname/DESC'u+3n
-.B /usr/local/share/groff/1.19.2/tmac/troffrc
+.Tp \w'/usr/share/groff/1.19.2/font/devname/DESC'u+3n
+.B /usr/share/groff/1.19.2/tmac/troffrc
 Initialization file (called before any other macro package).
 .
 .TP
-.B /usr/local/share/groff/1.19.2/tmac/troffrc-end
+.B /usr/share/groff/1.19.2/tmac/troffrc-end
 Initialization file (called after any other macro package).
 .
 .TP
-.BI /usr/local/share/groff/1.19.2/tmac/ name .tmac
+.BI /usr/share/groff/1.19.2/tmac/ name .tmac
 .TQ
-.BI /usr/local/share/groff/1.19.2/tmac/tmac. name
+.BI /usr/share/groff/1.19.2/tmac/tmac. name
 Macro files
 .
 .TP
-.BI /usr/local/share/groff/1.19.2/font/dev name /DESC
+.BI /usr/share/groff/1.19.2/font/dev name /DESC
 Device description file for device
 .IR name .
 .
 .TP
-.BI /usr/local/share/groff/1.19.2/font/dev name / F
+.BI /usr/share/groff/1.19.2/font/dev name / F
 Font file for font
 .I F
 of device

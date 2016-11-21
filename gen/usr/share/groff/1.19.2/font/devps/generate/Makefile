@@ -28,7 +28,7 @@ SHELL = /bin/sh
 # Directory containing AFM files.  Must not be current directory.
 # Either long names (eg Times-Roman.afm) or short names (eg timesr.afm)
 # may be used. See the afmname script.
-afmdir=/usr/local/lib/afm
+afmdir=/usr/lib/afm
 srcdir=generate
 
 SPECIALFONTS=S

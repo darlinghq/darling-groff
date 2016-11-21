@@ -6047,7 +6047,7 @@ my %AGL_to_unicode = (
 my $prog = $0;
 $prog =~ s@.*/@@;
 
-my $groff_sys_fontdir = "/usr/local/share/groff/1.19.2/font";
+my $groff_sys_fontdir = "/usr/share/groff/1.19.2/font";
 
 use Getopt::Std;
 getopts('a:d:e:i:mnsvx');

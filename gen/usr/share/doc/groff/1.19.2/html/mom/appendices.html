@@ -99,7 +99,7 @@ browser.
 section refers to the directory in which groff is installed,
 typically something like /usr/share/groff/&lt;version#&gt;
 (for distro-specific, pre-compiled groff packages) or
-/usr/local/share/groff/&lt;version#&gt; (if you've built groff
+/usr/share/groff/&lt;version#&gt; (if you've built groff
 from source).</em>
 <p>
 Groff comes with a small library of PostScript
@@ -357,7 +357,7 @@ Initial preparation (you only have to do this once):
 		<br>
 		<ul>
 			<li>/usr/share/groff,
-			<li>/usr/local/share/groff
+			<li>/usr/share/groff
 			<li>/etc/groff
 		</ul>
 		<p>
@@ -372,17 +372,17 @@ Initial preparation (you only have to do this once):
 		<a href="#SMALL_NOTE">Small Note</a>,
 		above, for the meaning of &lt;prefix&gt;).  On my system,
 		at the time of writing, &lt;prefix&gt; is
-		/usr/local/share/groff/1.19.2/, therefore, I symlink it in
+		/usr/share/groff/1.19.2/, therefore, I symlink it in
 		~/Fonts/Type1 with
 		<br>
 		<pre>
-ln -s /usr/local/share/groff/1.19.2/font/devps/generate/textmap textmap
+ln -s /usr/share/groff/1.19.2/font/devps/generate/textmap textmap
 		</pre>
 	<li>Locate the file &lt;prefix&gt;/font/devps/text.enc and
 		symlink it to <kbd>text.enc</kbd> in your personal font
 		directory.  On my system, in ~/Fonts/Type1
 		<pre>
-ln -s /usr/local/share/groff/1.19.2/font/devps/text.enc text.enc
+ln -s /usr/share/groff/1.19.2/font/devps/text.enc text.enc
 		</pre>
 	<li>Make sure you know which directory/ies holds your gs fonts.
 		You'll need the information later.  On a Debian box, some
@@ -524,7 +524,7 @@ FONTDIR="$HOME/Fonts/Type1"
 GS_FONTDIR="/usr/lib/ghostscript/fonts"
 
 # Location of site-font/devps
-GROFF_SITE_FONTDIR="/usr/local/share/groff/site-font/devps"
+GROFF_SITE_FONTDIR="/usr/share/groff/site-font/devps"
 
 # Personal groff fonts directory
 GROFF_FONTS="$HOME/Fonts/Groff"
