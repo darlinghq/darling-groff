@@ -373,4 +373,4 @@ install(TARGETS pfbtops DESTINATION libexec/darling/usr/bin)
 
 
 # Static content
-install(DIRECTORY gen/usr DESTINATION libexec/darling)
+install(DIRECTORY gen/usr DESTINATION libexec/darling USE_SOURCE_PERMISSIONS)
