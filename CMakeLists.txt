@@ -68,11 +68,11 @@ set(libgroff_sources
 	src/src/libs/libgroff/uniuni.cpp
 )
 
-add_library(groff_base OBJECT ${libgroff_sources})
-add_library(groff_extra OBJECT gen/version-libgroff.cpp)
-add_library(groff_fatal OBJECT src/src/libs/libgroff/fatal.cpp)
-add_library(groff_notroff OBJECT src/src/libs/libgroff/error.cpp src/src/libs/libgroff/nametoindex.cpp)
-add_library(groff_globals OBJECT
+add_darling_object_library(groff_base ${libgroff_sources})
+add_darling_object_library(groff_extra gen/version-libgroff.cpp)
+add_darling_object_library(groff_fatal src/src/libs/libgroff/fatal.cpp)
+add_darling_object_library(groff_notroff src/src/libs/libgroff/error.cpp src/src/libs/libgroff/nametoindex.cpp)
+add_darling_object_library(groff_globals
 	src/src/libs/libgroff/lineno.cpp
 	src/src/libs/libgroff/filename.cpp
 	src/src/libs/libgroff/device.cpp)
@@ -88,7 +88,7 @@ set(libdriver_sources
 	src/src/libs/libdriver/printer.cpp
 )
 
-add_library(driver OBJECT ${libdriver_sources})
+add_darling_object_library(driver ${libdriver_sources})
 
 set(libbib_sources
 	src/src/libs/libbib/common.cpp
@@ -98,7 +98,7 @@ set(libbib_sources
 	src/src/libs/libbib/map.c
 )
 
-add_library(bib OBJECT ${libbib_sources})
+add_darling_object_library(bib ${libbib_sources})
 
 
 set(groff_sources
