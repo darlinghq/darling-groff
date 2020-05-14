@@ -7,7 +7,6 @@ include(darling_exe)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/src/include)
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/gen/include)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
 
 add_definitions(-DHAVE_CONFIG_H -D__GETOPT_PREFIX=groff_)
 
