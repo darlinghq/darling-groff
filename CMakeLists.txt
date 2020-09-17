@@ -60,7 +60,7 @@ add_subdirectory(groff/src/utils/addftinfo)
 add_subdirectory(groff/src/utils/pfbtops)
 
 # Static content
-install(DIRECTORY gen/fakeroot/usr DESTINATION libexec/darling USE_SOURCE_PERMISSIONS)
+install(DIRECTORY gen/usr DESTINATION libexec/darling USE_SOURCE_PERMISSIONS)
 
 InstallSymlink("grohtml.1" "${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/share/man/man1/pre-grohtml.1")
 InstallSymlink("grohtml.1" "${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/share/man/man1/post-grohtml.1")
