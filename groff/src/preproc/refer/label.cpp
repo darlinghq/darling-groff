@@ -1250,9 +1250,17 @@ yyparse(void)
 yyparse()
 #endif
 {
+#ifdef DARLING
+    int yym, yyn, yystate;
+#else
     register int yym, yyn, yystate;
+#endif
 #if YYDEBUG
+#ifdef DARLING
+    char *yys;
+#else
     register char *yys;
+#endif
     extern char *getenv();
 
     if (yys = getenv("YYDEBUG"))
