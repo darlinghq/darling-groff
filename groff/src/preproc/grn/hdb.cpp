@@ -30,9 +30,11 @@ extern void savebounds(double x, double y);
 extern POINT *PTInit();
 extern POINT *PTMakePoint(double x, double y, POINT ** pplist);
 
-
+#ifdef DARLING
+int DBGetType(char *s);
+#else
 int DBGetType(register char *s);
-
+#endif
 
 /*
  * This routine returns a pointer to an initialized database element which
@@ -57,7 +59,11 @@ DBCreateElt(int type,
 	    char *text,
 	    ELT **db)
 {
+#ifdef DARLING
+  ELT *temp;
+#else
   register ELT *temp;
+#endif
 
   temp = (ELT *) malloc(sizeof(ELT));
   temp->nextelt = *db;
@@ -76,11 +82,21 @@ DBCreateElt(int type,
  * pointer to that database.
  */
 ELT *
+#ifdef DARLING
+DBRead(FILE *file)
+#else
 DBRead(register FILE *file)
+#endif
 {
+#ifdef DARLING
+  int i;
+  int done;
+  double nx;
+#else
   register int i;
   register int done;		/* flag for input exhausted */
   register double nx;		/* x holder so x is not set before orienting */
+#endif
   int type;			/* element type */
   ELT *elist;			/* pointer to the file's elements */
   POINT *plist;			/* pointer for reading in points */
@@ -205,7 +221,11 @@ DBRead(register FILE *file)
  * New file format has literal names for element types.
  */
 int
+#ifdef DARLING
+DBGetType(char *s)
+#else
 DBGetType(register char *s)
+#endif
 {
   if (isdigit(s[0]) || (s[0] == '-'))	/* old element format or EOF */
     return (atoi(s));

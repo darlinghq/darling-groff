@@ -88,7 +88,11 @@ extern "C" const char *Version_string;
 
 extern void HGPrintElt(ELT *element, int baseline);
 extern ELT *DBInit();
+#ifdef DARLING
+extern ELT *DBRead(FILE *file);
+#else
 extern ELT *DBRead(register FILE *file);
+#endif
 extern POINT *PTInit();
 extern POINT *PTMakePoint(double x, double y, POINT **pplist);
 
@@ -215,9 +219,17 @@ int compatibility_flag = FALSE;	/* TRUE if in compatibility mode */
 
 void getres();
 int doinput(FILE *fp);
+#ifdef DARLING
+void conv(FILE *fp, int baseline);
+#else
 void conv(register FILE *fp, int baseline);
+#endif
 void savestate();
+#ifdef DARLING
+int has_polygon(ELT *elist);
+#else
 int has_polygon(register ELT *elist);
+#endif
 void interpret(char *line);
 
 
@@ -245,10 +257,17 @@ main(int argc,
 {
   setlocale(LC_NUMERIC, "C");
   program_name = argv[0];
+#ifdef DARLING
+  FILE *fp;
+  int k;
+  char c;
+  int gfil = 0;
+#else
   register FILE *fp;
   register int k;
   register char c;
   register int gfil = 0;
+#endif
   char *file[50];
   char *operand(int *argcp, char ***argvp);
 
@@ -424,7 +443,11 @@ doinput(FILE *fp)
 void
 initpic()
 {
+#ifdef DARLING
+  int i;
+#else
   register int i;
+#endif
 
   for (i = 0; i < STYLES; i++) {	/* line thickness defaults */
     thick[i] = defthick[i];
@@ -469,12 +492,23 @@ initpic()
  *----------------------------------------------------------------------------*/
 
 void
+#ifdef DARLING
+conv(FILE *fp,
+     int baseline)
+#else
 conv(register FILE *fp,
      int baseline)
+#endif
 {
+#ifdef DARLING
+  FILE *gfp = NULL;
+  int done = 0;
+  ELT *e;
+#else
   register FILE *gfp = NULL;	/* input file pointer */
   register int done = 0;	/* flag to remember if finished */
   register ELT *e;		/* current element pointer */
+#endif
   ELT *PICTURE;			/* whole picture data base pointer */
   double temp;			/* temporary calculating area */
   /* POINT ptr; */		/* coordinates of a point to pass to `mov' */
@@ -535,8 +569,12 @@ conv(register FILE *fp,
       }				/* here, troffscale is the */
 				/* picture's scaling factor */
       if (pointscale) {
+#ifdef DARLING
+	int i;
+#else
 	register int i;		/* do pointscaling here, when */
 				/* scale is known, before output */
+#endif
 	for (i = 0; i < SIZES; i++)
 	  tsize[i] = (int) (troffscale * (double) tsize[i] + 0.5);
       }
@@ -658,7 +696,11 @@ conv(register FILE *fp,
 void
 savestate()
 {
+#ifdef DARLING
+  int i;
+#else
   register int i;
+#endif
 
   for (i = 0; i < STYLES; i++)	/* line thickness defaults */
     defthick[i] = thick[i];
@@ -719,8 +761,13 @@ interpret(char *line)
 {
   char str1[MAXINLINE];
   char str2[MAXINLINE];
+#ifdef DARLING
+  char *chr;
+  int i;
+#else
   register char *chr;
   register int i;
+#endif
   double par;
 
   str2[0] = '\0';
@@ -893,7 +940,11 @@ interpret(char *line)
  */
 
 int
+#ifdef DARLING
+has_polygon(ELT *elist)
+#else
 has_polygon(register ELT *elist)
+#endif
 {
   while (!DBNullelt(elist)) {
     if (elist->type == POLYGON)

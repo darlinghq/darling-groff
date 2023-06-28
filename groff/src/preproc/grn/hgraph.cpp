@@ -48,7 +48,11 @@ extern double adj4;
 extern int res;
 
 void HGSetFont(int font, int size);
+#ifdef DARLING
+void HGPutText(int justify, POINT pnt, char *string);
+#else
 void HGPutText(int justify, POINT pnt, register char *string);
+#endif
 void HGSetBrush(int mode);
 void tmove2(int px, int py);
 void doarc(POINT cp, POINT sp, int angle);
@@ -58,8 +62,13 @@ void drawwig(POINT * ptr, int type);
 void HGtline(int x1, int y1);
 void deltax(double x);
 void deltay(double y);
+#ifdef DARLING
+void HGArc(int cx, int cy, int px, int py, int angle);
+void picurve(int *x, int *y, int npts);
+#else
 void HGArc(register int cx, register int cy, int px, int py, int angle);
 void picurve(register int *x, register int *y, int npts);
+#endif
 void HGCurve(int *x, int *y, int numpoints);
 void Paramaterize(int x[], int y[], double h[], int n);
 void PeriodicSpline(double h[], int z[],
@@ -83,10 +92,17 @@ void
 HGPrintElt(ELT *element,
 	   int /* baseline */)
 {
+#ifdef DARLING
+  POINT *p1;
+  POINT *p2;
+  int length;
+  int graylevel;
+#else
   register POINT *p1;
   register POINT *p2;
   register int length;
   register int graylevel;
+#endif
 
   if (!DBNullelt(element) && !Nullpoint((p1 = element->ptlist))) {
     /* p1 always has first point */
@@ -276,9 +292,15 @@ HGPrintElt(ELT *element,
  *----------------------------------------------------------------------------*/
 
 void
+#ifdef DARLING
+HGPutText(int justify,
+	  POINT pnt,
+	  char *string)
+#else
 HGPutText(int justify,
 	  POINT pnt,
 	  register char *string)
+#endif
 {
   int savelasty = lasty;	/* vertical motion for text is to be */
 				/* ignored.  Save current y here     */
@@ -387,7 +409,11 @@ HGSetFont(int font,
 void
 HGSetBrush(int mode)
 {
+#ifdef DARLING
+  int printed = 0;
+#else
   register int printed = 0;
+#endif
 
   if (linmod != style[--mode]) {
     /* Groff doesn't understand \Ds, so we take it out */
@@ -417,7 +443,11 @@ HGSetBrush(int mode)
 void
 deltax(double x)
 {
+#ifdef DARLING
+  int ix = (int) (x * troffscale);
+#else
   register int ix = (int) (x * troffscale);
+#endif
 
   printf(" %du", ix - lastx);
   lastx = ix;
@@ -437,7 +467,11 @@ deltax(double x)
 void
 deltay(double y)
 {
+#ifdef DARLING
+  int iy = (int) (y * troffscale);
+#else
   register int iy = (int) (y * troffscale);
+#endif
 
   printf(" %du", iy - lastyline);
   lastyline = iy;
@@ -457,8 +491,13 @@ void
 tmove2(int px,
        int py)
 {
+#ifdef DARLING
+  int dx;
+  int dy;
+#else
   register int dx;
   register int dy;
+#endif
 
   if ((dy = py - lasty)) {
     printf("\\v'%du'", dy);
@@ -483,10 +522,17 @@ tmove2(int px,
 void
 tmove(POINT * ptr)
 {
+#ifdef DARLING
+  int ix = (int) (ptr->x * troffscale);
+  int iy = (int) (ptr->y * troffscale);
+  int dx;
+  int dy;
+#else
   register int ix = (int) (ptr->x * troffscale);
   register int iy = (int) (ptr->y * troffscale);
   register int dx;
   register int dy;
+#endif
 
   if ((dy = iy - lasty)) {
     printf(".sp %du\n", dy);
@@ -547,7 +593,11 @@ void
 drawwig(POINT * ptr,
 	int type)
 {
+#ifdef DARLING
+  int npts;			/* point list index */
+#else
   register int npts;			/* point list index */
+#endif
   int x[MAXPOINTS], y[MAXPOINTS];	/* point list */
 
   for (npts = 1; !Nullpoint(ptr); ptr = PTNextPoint(ptr), npts++) {
@@ -574,20 +624,37 @@ drawwig(POINT * ptr,
  *----------------------------------------------------------------------------*/
 
 void
+#ifdef DARLING
+HGArc(int cx,
+      int cy,
+      int px,
+      int py,
+      int angle)
+#else
 HGArc(register int cx,
       register int cy,
       int px,
       int py,
       int angle)
+#endif
 {
   double xs, ys, resolution, fullcircle;
   int m;
+#ifdef DARLING
+  int mask;
+  int extent;
+  int nx;
+  int ny;
+  int length;
+  double epsilon;
+#else
   register int mask;
   register int extent;
   register int nx;
   register int ny;
   register int length;
   register double epsilon;
+#endif
 
   xs = px - cx;
   ys = py - cy;
@@ -633,13 +700,25 @@ HGArc(register int cx,
  *----------------------------------------------------------------------------*/
 
 void
+#ifdef DARLING
+picurve(int *x,
+	int *y,
+	int npts)
+#else
 picurve(register int *x,
 	register int *y,
 	int npts)
+#endif
 {
+#ifdef DARLING
+  int nseg;
+  int xp;
+  int yp;
+#else
   register int nseg;		/* effective resolution for each curve */
   register int xp;		/* current point (and temporary) */
   register int yp;
+#endif
   int pxp, pyp;			/* previous point (to make lines from) */
   int i;			/* inner curve segment traverser */
   int length = 0;
@@ -710,10 +789,17 @@ HGCurve(int *x,
   double h[MAXPOINTS], dx[MAXPOINTS], dy[MAXPOINTS];
   double d2x[MAXPOINTS], d2y[MAXPOINTS], d3x[MAXPOINTS], d3y[MAXPOINTS];
   double t, t2, t3;
+#ifdef DARLING
+  int j;
+  int k;
+  int nx;
+  int ny;
+#else
   register int j;
   register int k;
   register int nx;
   register int ny;
+#endif
   int lx, ly;
   int length = 0;
 
@@ -776,10 +862,17 @@ Paramaterize(int x[],
 	     double h[],
 	     int n)
 {
+#ifdef DARLING
+  int dx;
+  int dy;
+  int i;
+  int j;
+#else
   register int dx;
   register int dy;
   register int i;
   register int j;
+#endif
   double u[MAXPOINTS];
 
   for (i = 1; i <= n; ++i) {
@@ -937,9 +1030,15 @@ NaturalEndSpline(double h[],	/* parameterization */
  *----------------------------------------------------------------------------*/
 
 void
+#ifdef DARLING
+change(int x,
+       int y,
+       int vis)
+#else
 change(register int x,
        register int y,
        register int vis)
+#endif
 {
   static int length = 0;
 
@@ -967,6 +1066,19 @@ void
 HGtline(int x_1,
 	int y_1)
 {
+#ifdef DARLING
+  int x_0 = lastx;
+  int y_0 = lasty;
+  int dx;
+  int dy;
+  int oldcoord;
+  int res1;
+  int visible;
+  int res2;
+  int xinc;
+  int yinc;
+  int dotcounter;
+#else
   register int x_0 = lastx;
   register int y_0 = lasty;
   register int dx;
@@ -978,6 +1090,7 @@ HGtline(int x_1,
   register int xinc;
   register int yinc;
   register int dotcounter;
+#endif
 
   if (linmod == SOLID) {
     line(x_1, y_1);

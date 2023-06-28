@@ -28,7 +28,11 @@ PTMakePoint(double x,
 	    double y,
 	    POINT **pplist)
 {
+#ifdef DARLING
+  POINT *pt;
+#else
   register POINT *pt;
+#endif
 
   if (Nullpoint(pt = *pplist)) {	/* empty list */
     *pplist = (POINT *) malloc(sizeof(POINT));
